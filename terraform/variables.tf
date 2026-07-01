@@ -3,11 +3,17 @@ variable "aws_region" {
 }
 
 variable "access_key" {
-  description = "AWS Access Key"
+  description = "AWS access key (se pasa por terraform.tfvars, nunca hardcodeado)."
+  type        = string
+  sensitive   = true
+  default     = null
 }
 
 variable "secret_key" {
-  description = "AWS Secret Key"
+  description = "AWS secret key (se pasa por terraform.tfvars, nunca hardcodeado)."
+  type        = string
+  sensitive   = true
+  default     = null
 }
 
 variable "bucket_name" {
