@@ -6,7 +6,7 @@ const nuevoSocio = ref({ nombre: '', email: '', plan: 'Mensual Básico' });
 const socioEditandoId = ref(null); // Variable para saber si estamos editando
 
 //const API_URL = 'http://localhost:3000/members';
-const API_URL = 'http://gestion-gimnasio-alb-1303756885.us-east-1.elb.amazonaws.com/members';
+const API_URL = 'http://gestion-gimnasio-alb-54492869.us-east-1.elb.amazonaws.com/members';
 
 const obtenerSocios = async () => {
   try {
@@ -63,7 +63,12 @@ const eliminarSocio = async (id) => {
   }
 };
 
-onMounted(() => { obtenerSocios(); });
+onMounted(() => {
+  obtenerSocios();
+  // Refresca la tabla cada 3 segundos para ver el estado de pago actualizarse solo
+  setInterval(obtenerSocios, 3000);
+});
+
 </script>
 
 <template>
@@ -99,8 +104,12 @@ onMounted(() => { obtenerSocios(); });
         <tbody>
           <tr v-for="socio in socios" :key="socio.id">
             <td>{{ socio.id }}</td><td>{{ socio.nombre }}</td><td>{{ socio.email }}</td><td>{{ socio.plan }}</td>
-            <td>
-              <span :class="socio.estado_pago === 'Pendiente' ? 'badge-pendiente' : 'badge-ok'">
+          <td>
+              <span :class="{
+                'badge-pendiente': socio.estado_pago === 'Pendiente',
+                'badge-ok': socio.estado_pago === 'Pagado',
+                'badge-rechazado': socio.estado_pago === 'Rechazado'
+              }">
                 {{ socio.estado_pago }}
               </span>
             </td>
@@ -130,5 +139,6 @@ input, select { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-
 th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
 .badge-pendiente { background-color: #ff9800; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
 .badge-ok { background-color: #4CAF50; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
+.badge-rechazado { background-color: #f44336; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px; }
 .acciones { min-width: 130px; }
 </style>
