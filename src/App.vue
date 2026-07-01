@@ -6,7 +6,7 @@ const nuevoSocio = ref({ nombre: '', email: '', plan: 'Mensual Básico' });
 const socioEditandoId = ref(null); // Variable para saber si estamos editando
 
 //const API_URL = 'http://localhost:3000/members';
-const API_URL = 'http://gestion-gimnasio-alb-1314716567.us-east-1.elb.amazonaws.com/members';
+const API_URL = 'http://gestion-gimnasio-alb-1303756885.us-east-1.elb.amazonaws.com/members';
 
 const obtenerSocios = async () => {
   try {
